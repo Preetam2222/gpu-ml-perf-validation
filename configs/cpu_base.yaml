@@ -1,0 +1,12 @@
+# Base-size models on CPU. Thresholds are loose sanity bounds for a small CI VM, not performance claims.
+device: cpu
+scale: base
+timing: {warmup: 5, iters: 20}
+matrix:
+  models: [mlp, convnet, transformer]
+  dtypes: [fp32, bf16]
+  batches: [1, 16]
+targets:
+  - name: mlp batch 1 under 100 ms p50
+    match: {model: mlp, batch: 1}
+    max_p50_ms: 100

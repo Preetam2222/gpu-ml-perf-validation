@@ -1,0 +1,15 @@
+# Intended for a CUDA GPU (e.g. Colab T4). fp16/bf16 targets assume tensor cores; tune to your device.
+device: cuda
+scale: base
+timing: {warmup: 20, iters: 100}
+matrix:
+  models: [mlp, convnet, transformer]
+  dtypes: [fp32, fp16]
+  batches: [1, 32, 128]
+targets:
+  - name: fp16 is faster than fp32 at batch 128
+    match: {dtype: fp16, batch: 128}
+    min_speedup_vs_fp32: 1.0
+  - name: latency sanity at batch 1
+    match: {batch: 1}
+    max_p99_ms: 50

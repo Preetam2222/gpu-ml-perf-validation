@@ -1,0 +1,12 @@
+# Fast CPU run (seconds): tiny models, checks the pipeline end to end.
+device: cpu
+scale: tiny
+timing: {warmup: 5, iters: 20}
+matrix:
+  models: [mlp, convnet, transformer]
+  dtypes: [fp32, bf16]
+  batches: [1, 8]
+targets:
+  - name: tiny models respond in under 50 ms at p99
+    match: {}
+    max_p99_ms: 50
